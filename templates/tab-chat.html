@@ -1,0 +1,25 @@
+<ion-view title="Chat">
+
+  <ion-content class="padding">
+
+    <div class="notification"></div>
+
+    <ol class="messages">
+      <li ng-class="{'userMsg': message.username == username}" ng-repeat="message in messages">
+        <div>
+          <span ng-if="message.username != username" class="message-username">{{message.username}}</span>
+          <p ng-bind="message.content" ng-class="{'userMsg': message.username == username}"></p>
+        </div>
+      </li>
+    </ol>
+  </ion-content>
+
+  <ion-footer-bar style="display:inline">
+    <form ng-submit="sendMessage()" class="message-form">
+      <label class="item-input-wrapper">
+        <input ng-model="newMessage" class="input-message" type="text" placeholder="Message">
+      </label>
+    </form>
+  </ion-footer-bar>
+
+</ion-view>
