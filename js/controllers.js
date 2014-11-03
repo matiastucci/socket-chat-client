@@ -50,9 +50,11 @@ angular.module('socket-chat.controllers', [])
 
 })
 
-.controller('ChatCtrl', function($scope,$ionicScrollDelegate,Chat) {
+.controller('ChatCtrl', function($scope,$ionicScrollDelegate,Chat,Notification) {
 
   $scope.messages = Chat.getMessages();
+
+  Notification.hide();
 
   $scope.$watch('newMessage', function(newValue, oldValue) {
     if(typeof newValue != 'undefined'){
