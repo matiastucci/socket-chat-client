@@ -1,6 +1,6 @@
 angular.module('socket-chat.services', [])
 
-.factory('Chat', function($rootScope,$http,Notification) {
+.factory('Chat', function($rootScope,$http,$ionicScrollDelegate,Notification) {
 
   var username;
   var messages = [];
@@ -56,6 +56,7 @@ angular.module('socket-chat.services', [])
   socket.on('new message', function(msg){
     $rootScope.$apply(function () {
       messages.push(msg);
+      $ionicScrollDelegate.scrollBottom(true);
     });
   });
 

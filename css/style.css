@@ -50,7 +50,6 @@ div.alert {
 
 .notification{
   background-color: #eee;
-  padding: 5px;
-  margin: -10px -10px 10px -10px;
+  margin-top: 43px !important;
   text-align: center;
 }
