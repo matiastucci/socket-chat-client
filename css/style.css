@@ -51,4 +51,5 @@ div.alert {
 .notification{
   background-color: #eee;
   text-align: center;
+  height: 30px;
 }
