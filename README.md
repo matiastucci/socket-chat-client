@@ -4,5 +4,5 @@ Ready to use with [this server](https://github.com/matiastucci/socket-chat-serve
 
 # Functionalities
 
-* Notification when a user connect/disconnect
+* Notification when a user connects/disconnects
 * Notification when a user is typing/stop typing
