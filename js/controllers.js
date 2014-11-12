@@ -56,7 +56,7 @@ angular.module('socket-chat.controllers', [])
 
   Notification.hide();
 
-  // $ionicScrollDelegate.scrollBottom(true);
+  $ionicScrollDelegate.scrollBottom(true);
 
   $scope.$watch('newMessage', function(newValue, oldValue) {
     if(typeof newValue != 'undefined'){
