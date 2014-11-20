@@ -12,6 +12,9 @@ angular.module('socket-chat.services', [])
   else
     baseUrl = 'http://localhost:8080';
 
+    baseUrl = 'https://socket-chat-server.herokuapp.com:443';
+  
+
   socket = io.connect(baseUrl);
 
   var functions = {
