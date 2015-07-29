@@ -8,8 +8,37 @@ angular.module('chat.services', [])
   return mySocket;
 })
 
-.factory('Chat', function(Socket){
+.factory('Chat', function($ionicScrollDelegate, Socket){
 
+  var username;
+  var messages = [];
+
+  Socket.on('new message', function(msg){
+    // $rootScope.$apply(function () {
+      messages.push(msg);
+      $ionicScrollDelegate.scrollBottom(true);
+    // });
+  });
+
+  return {
+    getUsername: function(){
+      return username;
+    },
+    setUsername: function(usr){
+      username = usr;
+    },
+    getMessages: function() {
+      return messages;
+    },
+    sendMessage: function(msg){
+      messages.push({
+        username: username,
+        message: msg
+      });
+      $ionicScrollDelegate.scrollBottom(true);
+      Socket.emit('new message', msg);
+    }
+  };
 })
 
 .factory('Chats', function() {

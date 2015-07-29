@@ -1,8 +1,9 @@
 angular.module('chat.controllers', [])
 
-.controller('ChatCtrl', function($scope, $ionicPopup, Socket) {
+.controller('ChatCtrl', function($scope, $ionicPopup, Socket, Chat) {
 
   $scope.data = {};
+  $scope.messages = Chat.getMessages();
 
   Socket.on('connect',function(){
 
@@ -24,11 +25,25 @@ angular.module('chat.controllers', [])
         }
       ]
     });
-    nicknamePopup.then(function(nickname) {
-      Socket.emit('add user',nickname);
+    nicknamePopup.then(function(username) {
+      Socket.emit('add user',username);
+      Chat.setUsername(username);
     });
 
   });
+
+  $scope.getBubbleClass = function(username){
+    var classname = 'from-them';
+    if($scope.data.username == username){
+      classname = 'from-me';
+    }
+    return classname;
+  };
+
+  $scope.sendMessage = function(msg){
+    Chat.sendMessage(msg);
+    $scope.input.message = "";
+  };
 
 })
 
