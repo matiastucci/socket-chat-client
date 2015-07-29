@@ -1,6 +1,6 @@
 # Socket.IO Chat Client
 
-Ready to use with [this server](https://github.com/matiastucci/socket-chat-server)
+Ready to use with the [Socket.IO chat server](http://chat.socket.io)
 
 ![demo](http://www.keepe.rs/projects/socket-chat/demo.gif)
 
