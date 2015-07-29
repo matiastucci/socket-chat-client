@@ -7,12 +7,12 @@ angular.module('chat.controllers', [])
 
   Socket.on('connect',function(){
 
-    var nicknamePopup = $ionicPopup.show({
+    if(!$scope.data.username){
+      var nicknamePopup = $ionicPopup.show({
       template: '<input type="text" ng-model="data.username" autofocus>',
       title: 'What\'s your nickname?',
       scope: $scope,
-      buttons: [
-        {
+      buttons: [{
           text: '<b>Save</b>',
           type: 'button-positive',
           onTap: function(e) {
@@ -22,13 +22,13 @@ angular.module('chat.controllers', [])
               return $scope.data.username;
             }
           }
-        }
-      ]
-    });
-    nicknamePopup.then(function(username) {
-      Socket.emit('add user',username);
-      Chat.setUsername(username);
-    });
+        }]
+      });
+      nicknamePopup.then(function(username) {
+        Socket.emit('add user',username);
+        Chat.setUsername(username);
+      });
+    }
 
   });
 
