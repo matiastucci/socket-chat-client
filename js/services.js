@@ -1,5 +1,13 @@
 angular.module('chat.services', [])
 
+.factory('Socket', function(socketFactory){
+  var myIoSocket = io.connect('http://chat.socket.io');
+  mySocket = socketFactory({
+    ioSocket: myIoSocket
+  });
+  return mySocket;
+})
+
 .factory('Chats', function() {
   // Might use a resource here that returns a JSON array
 
