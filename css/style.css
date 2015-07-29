@@ -1,114 +1,78 @@
-.messages {
-  margin:0;
-  padding:0;
-  list-style-type:none;
+section.chats {
+  /*max-width: 450px;
+  margin: 50px auto;*/
+}
+section.chats div {
+  max-width: 255px;
+  word-wrap: break-word;
+  margin-bottom: 20px;
+  line-height: 24px;
 }
 
-.messages li {
-  display:block;
-  clear:both;
-  max-width:50%;
-  margin:0 0 1rem 0;
-  padding:0;
+.clear {
+  clear: both;
+}
+
+.from-me {
+  position: relative;
+  padding: 10px 20px;
+  color: white;
+  background: #0B93F6;
+  border-radius: 25px;
   float: right;
 }
-
-.messages li.userMsg {
-  float:left;
+.from-me:before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  bottom: -2px;
+  right: -7px;
+  height: 20px;
+  border-right: 20px solid #0B93F6;
+  border-bottom-left-radius: 16px 14px;
+  -webkit-transform: translate(0, -2px);
+}
+.from-me:after {
+  content: "";
+  position: absolute;
+  z-index: 1;
+  bottom: -2px;
+  right: -56px;
+  width: 26px;
+  height: 20px;
+  background: white;
+  border-bottom-left-radius: 10px;
+  -webkit-transform: translate(-30px, -2px);
 }
 
-.messages p {
-  border-radius:.75rem;
-  background:#158ffe;
-  color:#fff;
-  padding:.6875rem;
-  margin:0;
-  font-size:.875rem;
-}
-
-.messages li p.userMsg {
-  background:#e6e5eb;
-  color:#383641;
-}
-
-div.alert {
-  background-color: #eee;
-  text-align: center;
-}
-
-.input-message{
-  background-color: #eee;
-}
-
-.message-form{
-  width: 100%;
-}
-
-.message-username{
-  font-size: 10px;
-}
-
-.notification{
-  background-color: #eee;
-  text-align: center;
-  height: 30px;
-}
-
-/* NEW CSS */
-
-/* allows the bar-footer to be elastic /*
-/* optionally set a max-height */
-/* maxlength on the textarea will prevent /*
-/* it from getting too large also */
-.bar-footer {
-  overflow: visible !important;
-}
-
-.bar-footer textarea {
-  resize: none;
-  height: 25px;
-}
-
-/* fixes an ios bug bear */
-button.ion-android-send {
-  padding-top: 2px;
-}
-
-/* add this to keep your footer buttons down 
-at the bottom as the textarea resizes */
-.footer-btn-wrap {
-  position: relative; 
-  height: 100%; 
-  width: 50px; 
-  top: 7px;
-}
-
-.footer-btn {
-  position: absolute !important; 
-  bottom: 0;
-}
-
-.message {
-  font-size: 14px;
-}
-
-.message-detail {
-  white-space: nowrap;
-  font-size: 14px;
-}
-
-.bar.item-input-inset .item-input-wrapper input {
-  width: 100% !important;
-}
-
-.message-wrapper {
+.from-them {
   position: relative;
+  padding: 10px 20px;
+  background: #E5E5EA;
+  border-radius: 25px;
+  color: black;
+  float: left;
 }
-
-.message-wrapper:last-child {
-  margin-bottom: 10px;
+.from-them:before {
+  content: "";
+  position: absolute;
+  z-index: 2;
+  bottom: -2px;
+  left: -7px;
+  height: 20px;
+  border-left: 20px solid #E5E5EA;
+  border-bottom-right-radius: 16px 14px;
+  -webkit-transform: translate(0, -2px);
 }
-
-input, textarea, .item-input, .item-input-wrapper {
-  background-color: #f4f4f4 !important;
+.from-them:after {
+  content: "";
+  position: absolute;
+  z-index: 3;
+  bottom: -2px;
+  left: 4px;
+  width: 26px;
+  height: 20px;
+  background: white;
+  border-bottom-right-radius: 10px;
+  -webkit-transform: translate(-30px, -2px);
 }
