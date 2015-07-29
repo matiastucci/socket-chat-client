@@ -1,4 +1,4 @@
-angular.module('starter.controllers', [])
+angular.module('chat.controllers', [])
 
 .controller('DashCtrl', function($scope) {})
 
