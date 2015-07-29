@@ -34,30 +34,30 @@ angular.module('chat', ['ionic', 'chat.controllers', 'chat.services'])
 
   // Each tab has its own nav history stack:
 
-  .state('tab.dash', {
-    url: '/dash',
+  .state('tab.chats', {
+    url: '/chats',
     views: {
-      'tab-dash': {
-        templateUrl: 'templates/tab-dash.html',
-        controller: 'DashCtrl'
+      'tab-chats': {
+        templateUrl: 'templates/tab-chats.html',
+        controller: 'ChatCtrl'
       }
     }
   })
 
-  .state('tab.chats', {
-      url: '/chats',
+  .state('tab.users', {
+      url: '/users',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/tab-chats.html',
-          controller: 'ChatsCtrl'
+        'tab-users': {
+          templateUrl: 'templates/tab-users.html',
+          controller: 'PeopleCtrl'
         }
       }
     })
-    .state('tab.chat-detail', {
-      url: '/chats/:chatId',
+    .state('tab.user-detail', {
+      url: '/users/:chatId',
       views: {
-        'tab-chats': {
-          templateUrl: 'templates/chat-detail.html',
+        'tab-users': {
+          templateUrl: 'templates/user-detail.html',
           controller: 'ChatDetailCtrl'
         }
       }
@@ -74,6 +74,6 @@ angular.module('chat', ['ionic', 'chat.controllers', 'chat.services'])
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/dash');
+  $urlRouterProvider.otherwise('/tab/chats');
 
 });
