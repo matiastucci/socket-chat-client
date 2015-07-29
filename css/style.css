@@ -1,1 +1,55 @@
-/* Empty. Add your own CSS if you like */
+.messages {
+  margin:0;
+  padding:0;
+  list-style-type:none;
+}
+
+.messages li {
+  display:block;
+  clear:both;
+  max-width:50%;
+  margin:0 0 1rem 0;
+  padding:0;
+  float: right;
+}
+
+.messages li.userMsg {
+  float:left;
+}
+
+.messages p {
+  border-radius:.75rem;
+  background:#158ffe;
+  color:#fff;
+  padding:.6875rem;
+  margin:0;
+  font-size:.875rem;
+}
+
+.messages li p.userMsg {
+  background:#e6e5eb;
+  color:#383641;
+}
+
+div.alert {
+  background-color: #eee;
+  text-align: center;
+}
+
+.input-message{
+  background-color: #eee;
+}
+
+.message-form{
+  width: 100%;
+}
+
+.message-username{
+  font-size: 10px;
+}
+
+.notification{
+  background-color: #eee;
+  text-align: center;
+  height: 30px;
+}
