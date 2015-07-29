@@ -1,11 +1,15 @@
 angular.module('chat.services', [])
 
 .factory('Socket', function(socketFactory){
-  var myIoSocket = io.connect('http://chat.socket.io');
+  var myIoSocket = io.connect('http://chat.socket.io:80');
   mySocket = socketFactory({
     ioSocket: myIoSocket
   });
   return mySocket;
+})
+
+.factory('Chat', function(Socket){
+
 })
 
 .factory('Chats', function() {

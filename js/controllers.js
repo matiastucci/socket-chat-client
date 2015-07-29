@@ -1,6 +1,36 @@
 angular.module('chat.controllers', [])
 
-.controller('ChatCtrl', function($scope) {})
+.controller('ChatCtrl', function($scope, $ionicPopup, Socket) {
+
+  $scope.data = {};
+
+  Socket.on('connect',function(){
+
+    var nicknamePopup = $ionicPopup.show({
+      template: '<input type="text" ng-model="data.username" autofocus>',
+      title: 'What\'s your nickname?',
+      scope: $scope,
+      buttons: [
+        {
+          text: '<b>Save</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.username) {
+              e.preventDefault();
+            } else {
+              return $scope.data.username;
+            }
+          }
+        }
+      ]
+    });
+    nicknamePopup.then(function(nickname) {
+      Socket.emit('add user',nickname);
+    });
+
+  });
+
+})
 
 .controller('PeopleCtrl', function($scope, Chats) {
   // With the new view caching in Ionic, Controllers are only called
