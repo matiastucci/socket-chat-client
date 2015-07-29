@@ -1,5 +1,5 @@
 
-angular.module('chat', ['ionic', 'chat.controllers', 'chat.services'])
+angular.module('chat', ['ionic', 'btford.socket-io', 'chat.controllers', 'chat.services'])
 
 .run(function($ionicPlatform) {
   $ionicPlatform.ready(function() {
