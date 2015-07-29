@@ -1,6 +1,6 @@
 section.chats {
-  /*max-width: 450px;
-  margin: 50px auto;*/
+  max-width: 450px;
+  /*margin: 50px auto;*/
 }
 section.chats div {
   max-width: 255px;
