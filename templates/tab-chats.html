@@ -1,4 +1,5 @@
 <ion-view view-title="Chats">
+
   <ion-content class="padding">
     <div class="list card">
       <div class="item item-divider">Recent Updates</div>
@@ -25,4 +26,38 @@
       </div>
     </div>
   </ion-content>
+
+  <form name="sendMessageForm" ng-submit="sendMessage(sendMessageForm)" novalidate>
+      <ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
+          <label class="item-input-wrapper">
+              <textarea ng-model="input.message" value="" placeholder="Send {{toUser.username}} a message..." required minlength="1" maxlength="1500" msd-elastic></textarea>
+          </label>
+          <div class="footer-btn-wrap">
+            <button class="button button-icon icon ion-android-send footer-btn" type="submit"
+                ng-disabled="!input.message || input.message === ''">
+            </button>
+          </div>
+      </ion-footer-bar>
+  </form>
+
+  <!-- <ion-footer-bar style="display:inline">
+    <form ng-submit="sendMessage()" class="message-form">
+      <label class="item-input-wrapper">
+        <input ng-model="newMessage" class="input-message" type="text" placeholder="Message">
+      </label>
+      <button class="button button-clear" ng-click="sendMessage()">
+        Send
+      </button>
+    </form>
+  </ion-footer-bar> -->
+
+  <!-- <ion-footer-bar keyboard-attach class="bar-stable item-input-inset">
+      <label class="item-input-wrapper">
+        <input type="text" placeholder="Type your message" on-return="sendMessage(); closeKeyboard()" ng-model="data.message" on-focus="inputUp()" on-blur="inputDown()" />
+      </label>
+      <button class="button button-clear" ng-click="sendMessage()">
+        Send
+      </button>
+    </ion-footer-bar> -->
+
 </ion-view>
