@@ -24,9 +24,7 @@ angular.module('chat.services', [])
   };
 
   Socket.on('new message', function(msg){
-    // $rootScope.$apply(function () {
       addMessage(msg);
-    // });
   });
 
   Socket.on('typing', function (data) {
