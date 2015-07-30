@@ -12,7 +12,6 @@ angular.module('chat.services', [])
 
   var username;
   var messages = [];
-  var notifications = [];
   var TYPING_MSG = '. . .';
 
   var Notification = function(username,message){
@@ -87,7 +86,7 @@ angular.module('chat.services', [])
         username: username,
         message: msg
       });
-      $ionicScrollDelegate.scrollBottom(true);
+      scrollBottom();
       Socket.emit('new message', msg);
     }
   };
