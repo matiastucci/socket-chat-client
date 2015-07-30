@@ -16,6 +16,11 @@ section.chats p.username{
   font-weight: bold;
 }
 
+p.notification{
+  text-align: center;
+  font-weight: bold;
+}
+
 .clear {
   clear: both;
 }

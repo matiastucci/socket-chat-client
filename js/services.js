@@ -12,6 +12,7 @@ angular.module('chat.services', [])
 
   var username;
   var messages = [];
+  var notifications = [];
   var TYPING_MSG = '. . .';
 
   Socket.on('new message', function(msg){
@@ -32,7 +33,17 @@ angular.module('chat.services', [])
     removeTypingMessage(data.username);
   });
 
+  Socket.on('user joined', function (data) {
+    var notification = {
+      notification: true,
+      username: data.username,
+      message: data.username + ' joined'
+    };
+    addMessage(notification);
+  });
+
   var addMessage = function(msg){
+    msg.notification = msg.notification || false;
     messages.push(msg);
     $ionicScrollDelegate.scrollBottom(true);
   };

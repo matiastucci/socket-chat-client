@@ -5,11 +5,16 @@
   <section class="chats">
 
     <span ng-repeat="message in messages">
-      <p class="username" ng-show="!messageIsMine(message.username)">{{message.username}}</p>
-      <div ng-class='getBubbleClass(message.username)'>
-        <p ng-bind="message.message"></p>
-      </div>
-      <div class="clear"></div>
+      <span ng-show="!message.notification">
+        <p class="username" ng-show="!messageIsMine(message.username)">{{message.username}}</p>
+        <div ng-class='getBubbleClass(message.username)'>
+          <p ng-bind="message.message"></p>
+        </div>
+        <div class="clear"></div>
+      </span>
+      <span ng-show="message.notification">
+        <p class="notification" ng-bind="message.message"></p>
+      </span>
     </span>
 
   </section>
