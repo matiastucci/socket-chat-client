@@ -15,10 +15,23 @@ angular.module('chat.services', [])
 
   Socket.on('new message', function(msg){
     // $rootScope.$apply(function () {
-      messages.push(msg);
-      $ionicScrollDelegate.scrollBottom(true);
+      addMessage(msg);
     // });
   });
+
+  Socket.on('typing', function (data) {
+    console.log(data);
+    var typingMsg = {
+      username: data.username,
+      message: '. . .'
+    };
+    addMessage(typingMsg);
+  });
+
+  var addMessage = function(msg){
+    messages.push(msg);
+    $ionicScrollDelegate.scrollBottom(true);
+  };
 
   return {
     getUsername: function(){
