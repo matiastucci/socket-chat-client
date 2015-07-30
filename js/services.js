@@ -53,16 +53,22 @@ angular.module('chat.services', [])
     addMessage(notification);
   });
 
+  var scrollBottom = function(){
+    $ionicScrollDelegate.resize();
+    $ionicScrollDelegate.scrollBottom(true);
+  };
+
   var addMessage = function(msg){
     msg.notification = msg.notification || false;
     messages.push(msg);
-    $ionicScrollDelegate.scrollBottom(true);
+    scrollBottom();
   };
 
   var removeTypingMessage = function(usr){
     for (var i = messages.length - 1; i >= 0; i--) {
       if(messages[i].username === usr && messages[i].message.indexOf(TYPING_MSG) > -1){
         messages.splice(i, 1);
+        scrollBottom();
         break;
       }
     }
