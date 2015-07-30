@@ -9,6 +9,7 @@ angular.module('chat.controllers', [])
   var TYPING_TIMER_LENGTH = 400;
 
   Socket.on('connect',function(){
+
     if(!$scope.data.username){
       var nicknamePopup = $ionicPopup.show({
       template: '<input type="text" ng-model="data.username" autofocus>',
@@ -36,18 +37,18 @@ angular.module('chat.controllers', [])
 
   var sendUpdateTyping = function(){
     if (!typing) {
-        typing = true;
-        Socket.emit('typing');
+      typing = true;
+      Socket.emit('typing');
     }
     lastTypingTime = (new Date()).getTime();
     $timeout(function () {
-        var typingTimer = (new Date()).getTime();
-        var timeDiff = typingTimer - lastTypingTime;
-        if (timeDiff >= TYPING_TIMER_LENGTH && typing) {
-          Socket.emit('stop typing');
-          typing = false;
-        }
-      }, TYPING_TIMER_LENGTH);
+      var typingTimer = (new Date()).getTime();
+      var timeDiff = typingTimer - lastTypingTime;
+      if (timeDiff >= TYPING_TIMER_LENGTH && typing) {
+        Socket.emit('stop typing');
+        typing = false;
+      }
+    }, TYPING_TIMER_LENGTH);
   };
 
   $scope.updateTyping = function(){
