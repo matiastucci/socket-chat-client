@@ -12,6 +12,7 @@ angular.module('chat.services', [])
 
   var username;
   var messages = [];
+  var TYPING_MSG = '. . .';
 
   Socket.on('new message', function(msg){
     // $rootScope.$apply(function () {
@@ -20,17 +21,29 @@ angular.module('chat.services', [])
   });
 
   Socket.on('typing', function (data) {
-    console.log(data);
     var typingMsg = {
       username: data.username,
-      message: '. . .'
+      message: TYPING_MSG
     };
     addMessage(typingMsg);
+  });
+
+  Socket.on('stop typing', function (data) {
+    removeTypingMessage(data.username);
   });
 
   var addMessage = function(msg){
     messages.push(msg);
     $ionicScrollDelegate.scrollBottom(true);
+  };
+
+  var removeTypingMessage = function(usr){
+    for (var i = messages.length - 1; i >= 0; i--) {
+      if(messages[i].username === usr && messages[i].message.indexOf(TYPING_MSG) > -1){
+        messages.splice(i, 1);
+        break;
+      }
+    }
   };
 
   return {
