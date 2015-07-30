@@ -5,7 +5,7 @@
   <section class="chats">
 
     <span ng-repeat="message in messages">
-    
+      <p class="username" ng-show="!messageIsMine(message.username)">{{message.username}}</p>
       <div ng-class='getBubbleClass(message.username)'>
         <p ng-bind="message.message"></p>
       </div>

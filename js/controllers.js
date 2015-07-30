@@ -32,9 +32,13 @@ angular.module('chat.controllers', [])
 
   });
 
+  $scope.messageIsMine = function(username){
+    return $scope.data.username === username;
+  };
+
   $scope.getBubbleClass = function(username){
     var classname = 'from-them';
-    if($scope.data.username == username){
+    if($scope.messageIsMine(username)){
       classname = 'from-me';
     }
     return classname;

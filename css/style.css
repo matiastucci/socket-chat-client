@@ -11,6 +11,10 @@ section.chats div {
 section.chats p{
   margin: 0;
 }
+section.chats p.username{
+  max-width: 255px;
+  font-weight: bold;
+}
 
 .clear {
   clear: both;
