@@ -15,6 +15,14 @@ angular.module('chat.services', [])
   var notifications = [];
   var TYPING_MSG = '. . .';
 
+  var Notification = function(username,message){
+    var notification          = {};
+    notification.username     = username;
+    notification.message      = message;
+    notification.notification = true;
+    return notification;
+  };
+
   Socket.on('new message', function(msg){
     // $rootScope.$apply(function () {
       addMessage(msg);
@@ -34,11 +42,14 @@ angular.module('chat.services', [])
   });
 
   Socket.on('user joined', function (data) {
-    var notification = {
-      notification: true,
-      username: data.username,
-      message: data.username + ' joined'
-    };
+    var msg = data.username + ' joined';
+    var notification = new Notification(data.username,msg);
+    addMessage(notification);
+  });
+
+  Socket.on('user left', function (data) {
+    var msg = data.username + ' left';
+    var notification = new Notification(data.username,msg);
     addMessage(notification);
   });
 
