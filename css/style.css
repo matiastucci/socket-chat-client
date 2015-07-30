@@ -18,7 +18,7 @@ section.chats p.username{
 
 p.notification{
   text-align: center;
-  font-weight: bold;
+  font-style: italic;
 }
 
 .clear {
