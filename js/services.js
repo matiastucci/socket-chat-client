@@ -9,15 +9,15 @@ angular.module('chat.services', [])
 })
 
 .factory('Users', function(){
-    var users = {};
-    users.numUsers = 0;
+    var usernames = [];
+    usernames.numUsers = 0;
 
     return {
       getUsers: function(){
-        return users;
+        return usernames;
       },
       setNumUsers: function(data){
-        users.numUsers = data.numUsers;
+        usernames.numUsers = data.numUsers;
       }
   };
 })
