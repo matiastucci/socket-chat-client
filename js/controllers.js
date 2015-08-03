@@ -6,7 +6,7 @@ angular.module('chat.controllers', [])
   $scope.messages = Chat.getMessages();
   var typing = false;
   var lastTypingTime;
-  var TYPING_TIMER_LENGTH = 400;
+  var TYPING_TIMER_LENGTH = 4000;
 
   Socket.on('connect',function(){
 
@@ -74,11 +74,8 @@ angular.module('chat.controllers', [])
 
 })
 
-.controller('PeopleCtrl', function($scope, Chats) {
-  $scope.chats = Chats.all();
-  $scope.remove = function(chat) {
-    Chats.remove(chat);
-  };
+.controller('PeopleCtrl', function($scope, Chat) {
+  $scope.data = Chat.getNumUsers();
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
@@ -87,4 +84,4 @@ angular.module('chat.controllers', [])
 
 .controller('AccountCtrl', function($scope, Chat) {
   $scope.username = Chat.getUsername();  
-});
+}, true);

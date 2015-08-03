@@ -45,7 +45,6 @@ angular.module('chat', ['ionic', 'btford.socket-io', 'chat.controllers', 'chat.s
       views: {
         'tab-users': {
           templateUrl: 'templates/tab-users.html',
-          controller: 'PeopleCtrl'
         }
       }
     })

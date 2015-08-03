@@ -5,7 +5,7 @@
     <ion-nav-view name="tab-chats"></ion-nav-view>
   </ion-tab>
 
-  <ion-tab title="Contacts" icon-off="ion-ios-people-outline" icon-on="ion-ios-people" href="#/tab/users">
+  <ion-tab title="Contacts" badge="data.numUsers" badge-style="badge-positive" icon-off="ion-ios-people-outline" icon-on="ion-ios-people" href="#/tab/users" ng-controller="PeopleCtrl">
     <ion-nav-view name="tab-users"></ion-nav-view>
   </ion-tab>
 

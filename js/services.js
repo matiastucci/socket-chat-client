@@ -11,6 +11,9 @@ angular.module('chat.services', [])
 .factory('Chat', function($ionicScrollDelegate, Socket){
 
   var username;
+  var users = {};
+  users.numUsers = 0;
+
   var messages = [];
   var TYPING_MSG = '. . .';
 
@@ -21,6 +24,14 @@ angular.module('chat.services', [])
     notification.notification = true;
     return notification;
   };
+
+  var setNumUsers = function(data){
+    users.numUsers = data.numUsers;
+  };
+
+  Socket.on('login', function (data) {
+    setNumUsers(data);
+  });
 
   Socket.on('new message', function(msg){
       addMessage(msg);
@@ -42,12 +53,14 @@ angular.module('chat.services', [])
     var msg = data.username + ' joined';
     var notification = new Notification(data.username,msg);
     addMessage(notification);
+    setNumUsers(data);
   });
 
   Socket.on('user left', function (data) {
     var msg = data.username + ' left';
     var notification = new Notification(data.username,msg);
     addMessage(notification);
+    setNumUsers(data);
   });
 
   var scrollBottom = function(){
@@ -78,6 +91,14 @@ angular.module('chat.services', [])
     setUsername: function(usr){
       username = usr;
     },
+
+    getUsernames: function(){
+      return usernames;
+    },
+    getNumUsers: function(){
+      return users;
+    },
+
     getMessages: function() {
       return messages;
     },
