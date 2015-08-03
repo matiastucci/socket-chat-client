@@ -74,8 +74,8 @@ angular.module('chat.controllers', [])
 
 })
 
-.controller('PeopleCtrl', function($scope, Chat) {
-  $scope.data = Chat.getNumUsers();
+.controller('PeopleCtrl', function($scope, Users) {
+  $scope.data = Users.getUsers();
 })
 
 .controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
