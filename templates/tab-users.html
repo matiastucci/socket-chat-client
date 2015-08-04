@@ -1,7 +1,18 @@
 <ion-view view-title="Users">
   <ion-content>
 
-    {{data | json}}    
+    <div class="list">
+      <a ng-repeat="username in data" class="item item-avatar" href="#">
+        <img src="http://lorempixel.com/60/60/people">
+        <h2>{{username}}</h2>
+      </a>
+    </div>
+
+    <div ng-if="data.length > 0" class="card">
+      <div class="item item-text-wrap">
+        ... and {{data.numUsers - data.length}} more users
+      </div>
+    </div>
 
   </ion-content>
 </ion-view>
