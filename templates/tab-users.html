@@ -2,7 +2,7 @@
   <ion-content>
 
     <div class="list">
-      <a ng-repeat="username in data" class="item item-avatar" href="#">
+      <a ng-repeat="username in data" nav-transition="none" class="item item-avatar" href="#/tab/chats/{{username}}">
         <img src="http://lorempixel.com/60/60/people">
         <h2>{{username}}</h2>
       </a>
