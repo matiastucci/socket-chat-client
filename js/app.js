@@ -61,6 +61,6 @@ angular.module('chat', ['ionic', 'btford.socket-io', 'chat.controllers', 'chat.s
   });
 
   // if none of the above states are matched, use this as the fallback
-  $urlRouterProvider.otherwise('/tab/chats');
+  $urlRouterProvider.otherwise('/tab/chats/');
 
 });
