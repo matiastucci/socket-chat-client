@@ -20,7 +20,10 @@ angular.module('chat.services', [])
         usernames.push(username);
       },
       deleteUsername: function(username){
-        delete usernames[username];
+        var index = usernames.indexOf(username);
+        if(index != -1){
+          usernames.splice(index, 1);
+        }
       },
       setNumUsers: function(data){
         usernames.numUsers = data.numUsers;
@@ -70,6 +73,7 @@ angular.module('chat.services', [])
     var notification = new Notification(data.username,msg);
     addMessage(notification);
     Users.setNumUsers(data);
+    Users.addUsername(data.username);
   });
 
   Socket.on('user left', function (data) {
@@ -77,6 +81,7 @@ angular.module('chat.services', [])
     var notification = new Notification(data.username,msg);
     addMessage(notification);
     Users.setNumUsers(data);
+    Users.deleteUsername(data.username);
   });
 
   var scrollBottom = function(){
