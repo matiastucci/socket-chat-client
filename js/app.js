@@ -31,7 +31,8 @@ angular.module('chat', ['ionic', 'btford.socket-io', 'chat.controllers', 'chat.s
   // Each tab has its own nav history stack:
 
   .state('tab.chats', {
-    url: '/chats',
+    url: '/chats/{username}',
+    params: { username: { value: null } },
     views: {
       'tab-chats': {
         templateUrl: 'templates/tab-chats.html',
@@ -45,15 +46,6 @@ angular.module('chat', ['ionic', 'btford.socket-io', 'chat.controllers', 'chat.s
       views: {
         'tab-users': {
           templateUrl: 'templates/tab-users.html',
-        }
-      }
-    })
-    .state('tab.user-detail', {
-      url: '/users/:chatId',
-      views: {
-        'tab-users': {
-          templateUrl: 'templates/user-detail.html',
-          controller: 'ChatDetailCtrl'
         }
       }
     })
