@@ -122,6 +122,9 @@ angular.module('chat.services', [])
       });
       scrollBottom();
       Socket.emit('new message', msg);
+    },
+    scrollBottom: function(){
+      scrollBottom();
     }
   };
 })

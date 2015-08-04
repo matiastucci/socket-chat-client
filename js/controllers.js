@@ -36,6 +36,8 @@ angular.module('chat.controllers', [])
 
   });
 
+  Chat.scrollBottom();
+
   if($stateParams.username){
     $scope.data.message = "@" + $stateParams.username;
     document.getElementById("msg-input").focus();
