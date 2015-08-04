@@ -38,7 +38,6 @@ angular.module('chat.controllers', [])
 
   if($stateParams.username){
     $scope.data.message = "@" + $stateParams.username;
-    document.getElementById("usr-input").blur();
     document.getElementById("msg-input").focus();
   } 
 
