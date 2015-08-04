@@ -1,8 +1,9 @@
 angular.module('chat.controllers', [])
 
-.controller('ChatCtrl', function($scope, $ionicPopup, $timeout, Socket, Chat) {
+.controller('ChatCtrl', function($scope, $stateParams, $ionicPopup, $timeout, Socket, Chat) {
 
   $scope.data = {};
+  $scope.data.message = "";
   $scope.messages = Chat.getMessages();
   var typing = false;
   var lastTypingTime;
@@ -34,6 +35,10 @@ angular.module('chat.controllers', [])
     }
 
   });
+
+  if($stateParams.username){
+    $scope.data.message = "@" + $stateParams.username;
+  } 
 
   var sendUpdateTyping = function(){
     if (!typing) {
