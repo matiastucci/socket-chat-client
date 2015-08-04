@@ -13,7 +13,7 @@ angular.module('chat.controllers', [])
 
     if(!$scope.data.username){
       var nicknamePopup = $ionicPopup.show({
-      template: '<input type="text" ng-model="data.username" autofocus>',
+      template: '<input id="usr-input" type="text" ng-model="data.username" autofocus>',
       title: 'What\'s your nickname?',
       scope: $scope,
       buttons: [{
@@ -38,6 +38,8 @@ angular.module('chat.controllers', [])
 
   if($stateParams.username){
     $scope.data.message = "@" + $stateParams.username;
+    document.getElementById("usr-input").blur();
+    document.getElementById("msg-input").focus();
   } 
 
   var sendUpdateTyping = function(){
@@ -74,7 +76,7 @@ angular.module('chat.controllers', [])
 
   $scope.sendMessage = function(msg){
     Chat.sendMessage(msg);
-    $scope.input.message = "";
+    $scope.data.message = "";
   };
 
 })
