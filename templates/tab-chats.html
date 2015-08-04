@@ -21,14 +21,14 @@
 
   </ion-content>
 
-  <form name="sendMessageForm" ng-submit="sendMessage(input.message)" novalidate>
+  <form name="sendMessageForm" ng-submit="sendMessage(data.message)" novalidate>
       <ion-footer-bar class="bar-stable item-input-inset message-footer" keyboard-attach>
           <label class="item-input-wrapper">
-              <input ng-change="updateTyping()" ng-model="input.message" class="input-message" type="text" placeholder="Message">
+              <input ng-change="updateTyping()" ng-model="data.message" class="input-message" type="text" placeholder="Message">
           </label>
           <div class="footer-btn-wrap">
             <button class="button button-icon icon ion-ios-paperplane footer-btn" type="submit"
-                ng-disabled="!input.message || input.message === ''">
+                ng-disabled="!data.message || data.message === ''">
             </button>
           </div>
       </ion-footer-bar>
