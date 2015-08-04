@@ -8,6 +8,12 @@
       </a>
     </div>
 
+    <div ng-if="data.length == 0" class="card">
+      <div class="item item-text-wrap">
+        There are {{data.numUsers}} users
+      </div>
+    </div>
+
     <div ng-if="data.length > 0" class="card">
       <div class="item item-text-wrap">
         ... and {{data.numUsers - data.length}} more users
