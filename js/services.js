@@ -19,6 +19,9 @@ angular.module('chat.services', [])
       addUsername: function(username){
         usernames.push(username);
       },
+      deleteUsername: function(username){
+        delete usernames[username];
+      },
       setNumUsers: function(data){
         usernames.numUsers = data.numUsers;
       }
