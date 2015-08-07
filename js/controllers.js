@@ -1,96 +1,95 @@
-angular.module('socket-chat.controllers', [])
+angular.module('chat.controllers', [])
 
-.controller('ParentCtrl', function($scope, $ionicLoading, $ionicPopup, Chat) {
+.controller('ChatCtrl', function($scope, $stateParams, $ionicPopup, $timeout, Socket, Chat) {
 
-  $scope.username = Chat.getUsername();
-
-  $scope.showLoading = function(){
-    $ionicLoading.show({
-      noBackdrop: true,
-      template: '<i class="favoriteModal ion-loading-c"></i>'
-    });
-  };
-
-  $scope.hideLoading = function(){
-    $ionicLoading.hide();
-  };
-
-
-  $scope.showUsernamePopup = function() {
-    $scope.data = {}
-
-    var myPopup = $ionicPopup.show({
-      template: '<input type="text" ng-model="data.username" autofocus>',
-      title: 'Choose a username',
-      scope: $scope,
-      buttons: [
-          {
-            text: '<b>Save</b>',
-            type: 'button-positive',
-            onTap: function(e) {
-              if (!$scope.data.username) {
-                //don't allow the user to close unless he enters the username
-                e.preventDefault();
-              } else {
-                return $scope.data.username;
-              }
-            }
-          },
-      ]
-    });
-    myPopup.then(function(res) {
-      Chat.setUsername(res);
-      $scope.username = res;
-    });
-  };
-
-  if(!$scope.username){
-    $scope.showUsernamePopup();
-  }
-
-})
-
-.controller('ChatCtrl', function($scope,$ionicScrollDelegate,Chat,Notification) {
-
+  $scope.data = {};
+  $scope.data.message = "";
   $scope.messages = Chat.getMessages();
+  var typing = false;
+  var lastTypingTime;
+  var TYPING_TIMER_LENGTH = 250;
 
-  Notification.hide();
+  Socket.on('connect',function(){
 
-  $ionicScrollDelegate.scrollBottom(true);
-
-  $scope.$watch('newMessage', function(newValue, oldValue) {
-    if(typeof newValue != 'undefined'){
-      if(newValue != ''){
-        Chat.typing();
-      }
-      else{
-        Chat.stopTyping();
-      }
+    if(!$scope.data.username){
+      var nicknamePopup = $ionicPopup.show({
+      template: '<input id="usr-input" type="text" ng-model="data.username" autofocus>',
+      title: 'What\'s your nickname?',
+      scope: $scope,
+      buttons: [{
+          text: '<b>Save</b>',
+          type: 'button-positive',
+          onTap: function(e) {
+            if (!$scope.data.username) {
+              e.preventDefault();
+            } else {
+              return $scope.data.username;
+            }
+          }
+        }]
+      });
+      nicknamePopup.then(function(username) {
+        Socket.emit('add user',username);
+        Chat.setUsername(username);
+      });
     }
+
   });
 
-  $scope.sendMessage = function() {
-    if($scope.newMessage){
-      Chat.sendMessage($scope.newMessage);
-      $scope.newMessage = '';
-      $ionicScrollDelegate.scrollBottom(true);
+  Chat.scrollBottom();
+
+  if($stateParams.username){
+    $scope.data.message = "@" + $stateParams.username;
+    document.getElementById("msg-input").focus();
+  } 
+
+  var sendUpdateTyping = function(){
+    if (!typing) {
+      typing = true;
+      Socket.emit('typing');
     }
-    else{
-      alert('Can\'t be empty');
+    lastTypingTime = (new Date()).getTime();
+    $timeout(function () {
+      var typingTimer = (new Date()).getTime();
+      var timeDiff = typingTimer - lastTypingTime;
+      if (timeDiff >= TYPING_TIMER_LENGTH && typing) {
+        Socket.emit('stop typing');
+        typing = false;
+      }
+    }, TYPING_TIMER_LENGTH);
+  };
+
+  $scope.updateTyping = function(){
+    sendUpdateTyping();
+  };
+
+  $scope.messageIsMine = function(username){
+    return $scope.data.username === username;
+  };
+
+  $scope.getBubbleClass = function(username){
+    var classname = 'from-them';
+    if($scope.messageIsMine(username)){
+      classname = 'from-me';
     }
+    return classname;
+  };
+
+  $scope.sendMessage = function(msg){
+    Chat.sendMessage(msg);
+    $scope.data.message = "";
   };
 
 })
 
-.controller('PeopleCtrl', function($scope, Chat) {
-  $scope.showLoading();
-  Chat.getUsernames().then(function(res){
-    $scope.people  = res.data;
-    $scope.numUsers = Object.keys(res.data).length;
-    $scope.hideLoading();
-  });
+.controller('PeopleCtrl', function($scope, Users) {
+  $scope.data = Users.getUsers();
 })
 
-.controller('AccountCtrl', function($scope,Chat) {
-  $scope.username = Chat.getUsername();
-});
+.controller('ChatDetailCtrl', function($scope, $stateParams, Chats) {
+  $scope.chat = Chats.get($stateParams.chatId);
+})
+
+.controller('AccountCtrl', function($scope, Chat) {
+  $scope.username = Chat.getUsername();  
+}, true);

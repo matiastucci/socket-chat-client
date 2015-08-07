@@ -1,0 +1,24 @@
+<ion-view view-title="Users">
+  <ion-content>
+
+    <div class="list">
+      <a ng-repeat="username in data" nav-transition="none" class="item item-avatar" href="#/tab/chats/{{username}}">
+        <img src="http://lorempixel.com/60/60/people">
+        <h2 class="username-list">{{username}}</h2>
+      </a>
+    </div>
+
+    <div ng-if="data.length == 0" class="card">
+      <div class="item item-text-wrap">
+        There are {{data.numUsers}} users
+      </div>
+    </div>
+
+    <div ng-if="data.length > 0" class="card">
+      <div class="item item-text-wrap">
+        ... and {{data.numUsers - data.length}} more users
+      </div>
+    </div>
+
+  </ion-content>
+</ion-view>

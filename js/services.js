@@ -1,100 +1,179 @@
-angular.module('socket-chat.services', [])
+angular.module('chat.services', [])
 
-.factory('Chat', function($rootScope,$http,$ionicScrollDelegate,Notification) {
+.factory('Socket', function(socketFactory){
+  var myIoSocket = io.connect('http://chat.socket.io:80');
+  mySocket = socketFactory({
+    ioSocket: myIoSocket
+  });
+  return mySocket;
+})
+
+.factory('Users', function(){
+    var usernames = [];
+    usernames.numUsers = 0;
+
+    return {
+      getUsers: function(){
+        return usernames;
+      },
+      addUsername: function(username){
+        usernames.push(username);
+      },
+      deleteUsername: function(username){
+        var index = usernames.indexOf(username);
+        if(index != -1){
+          usernames.splice(index, 1);
+        }
+      },
+      setNumUsers: function(data){
+        usernames.numUsers = data.numUsers;
+      }
+  };
+})
+
+.factory('Chat', function($ionicScrollDelegate, Socket, Users){
 
   var username;
+  var users = {};
+  users.numUsers = 0;
+
   var messages = [];
+  var TYPING_MSG = '. . .';
 
-  var baseUrl, socket;
+  var Notification = function(username,message){
+    var notification          = {};
+    notification.username     = username;
+    notification.message      = message;
+    notification.notification = true;
+    return notification;
+  };
 
-  if(window.location.origin.indexOf('localhost') == -1)
-    baseUrl = 'https://socket-chat-server.herokuapp.com:443';
-  else
-    baseUrl = 'http://localhost:8080';  
+  Socket.on('login', function (data) {
+    Users.setNumUsers(data);
+  });
 
-  socket = io.connect(baseUrl);
+  Socket.on('new message', function(msg){
+      addMessage(msg);
+  });
 
-  var functions = {
-    all: function() {
-      return friends;
+  Socket.on('typing', function (data) {
+    var typingMsg = {
+      username: data.username,
+      message: TYPING_MSG
+    };
+    addMessage(typingMsg);
+  });
+
+  Socket.on('stop typing', function (data) {
+    removeTypingMessage(data.username);
+  });
+
+  Socket.on('user joined', function (data) {
+    var msg = data.username + ' joined';
+    var notification = new Notification(data.username,msg);
+    addMessage(notification);
+    Users.setNumUsers(data);
+    Users.addUsername(data.username);
+  });
+
+  Socket.on('user left', function (data) {
+    var msg = data.username + ' left';
+    var notification = new Notification(data.username,msg);
+    addMessage(notification);
+    Users.setNumUsers(data);
+    Users.deleteUsername(data.username);
+  });
+
+  var scrollBottom = function(){
+    $ionicScrollDelegate.resize();
+    $ionicScrollDelegate.scrollBottom(true);
+  };
+
+  var addMessage = function(msg){
+    msg.notification = msg.notification || false;
+    messages.push(msg);
+    scrollBottom();
+  };
+
+  var removeTypingMessage = function(usr){
+    for (var i = messages.length - 1; i >= 0; i--) {
+      if(messages[i].username === usr && messages[i].message.indexOf(TYPING_MSG) > -1){
+        messages.splice(i, 1);
+        scrollBottom();
+        break;
+      }
+    }
+  };
+
+  return {
+    getUsername: function(){
+      return username;
     },
-    get: function(friendId) {
-      return friends[friendId];
+    setUsername: function(usr){
+      username = usr;
     },
-    getMessages: function(){
+    getMessages: function() {
       return messages;
     },
     sendMessage: function(msg){
       messages.push({
         username: username,
-        content: msg
+        message: msg
       });
-      socket.emit('new message', msg, username);
+      scrollBottom();
+      Socket.emit('new message', msg);
     },
-    getUsername: function(){
-      return username;
-    },
-    setUsername: function(newUsername){
-      username = newUsername;
-      socket.emit('add user', username);
-    },
-    getUsernames: function(){
-      return $http.get(baseUrl+'/usernames');
-    },
-    typing: function(){
-      socket.emit('typing');
-    },
-    stopTyping: function(){
-      socket.emit('stop typing');
+    scrollBottom: function(){
+      scrollBottom();
     }
   };
-
-  socket.on('user joined', function(data){
-    Notification.show(data.username + ' connected');
-  });
-
-  socket.on('new message', function(msg){
-    $rootScope.$apply(function () {
-      messages.push(msg);
-      $ionicScrollDelegate.scrollBottom(true);
-    });
-  });
-
-  socket.on('user left', function(data){
-    Notification.show(data.username + ' disconnected');
-  });
-
-  socket.on('typing', function(data){
-    console.log('typing');
-    Notification.show(data.username + ' is typing');
-  });
-
-  socket.on('stop typing', function(data){
-    console.log('stop typing');
-    Notification.hide();
-  });
-
-  return functions;
-
 })
 
-.factory('Notification', function($timeout) {
+.factory('Chats', function() {
+  // Might use a resource here that returns a JSON array
 
- return {
-  show: function(msg){
-    var $notificationDiv = angular.element( document.querySelector( '.notification' ) );
-    $notificationDiv.css('display','inherit');
-    $notificationDiv.html(msg);
-    if(msg.indexOf('typing') == -1){
-      $timeout(function(){
-        $notificationDiv.css('display','none');
-      }, 5000);
+  // Some fake testing data
+  var chats = [{
+    id: 0,
+    name: 'Ben Sparrow',
+    lastText: 'You on your way?',
+    face: 'https://pbs.twimg.com/profile_images/514549811765211136/9SgAuHeY.png'
+  }, {
+    id: 1,
+    name: 'Max Lynx',
+    lastText: 'Hey, it\'s me',
+    face: 'https://avatars3.githubusercontent.com/u/11214?v=3&s=460'
+  }, {
+    id: 2,
+    name: 'Adam Bradleyson',
+    lastText: 'I should buy a boat',
+    face: 'https://pbs.twimg.com/profile_images/479090794058379264/84TKj_qa.jpeg'
+  }, {
+    id: 3,
+    name: 'Perry Governor',
+    lastText: 'Look at my mukluks!',
+    face: 'https://pbs.twimg.com/profile_images/598205061232103424/3j5HUXMY.png'
+  }, {
+    id: 4,
+    name: 'Mike Harrington',
+    lastText: 'This is wicked good ice cream.',
+    face: 'https://pbs.twimg.com/profile_images/578237281384841216/R3ae1n61.png'
+  }];
+
+  return {
+    all: function() {
+      return chats;
+    },
+    remove: function(chat) {
+      chats.splice(chats.indexOf(chat), 1);
+    },
+    get: function(chatId) {
+      for (var i = 0; i < chats.length; i++) {
+        if (chats[i].id === parseInt(chatId)) {
+          return chats[i];
+        }
+      }
+      return null;
     }
-  },
-  hide: function(){
-    var $notificationDiv = angular.element( document.querySelector( '.notification' ) );
-    $notificationDiv.css('display','none');
-  }
- }
-
+  };
 });
