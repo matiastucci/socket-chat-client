@@ -7,7 +7,7 @@ angular.module('chat.controllers', [])
   $scope.messages = Chat.getMessages();
   var typing = false;
   var lastTypingTime;
-  var TYPING_TIMER_LENGTH = 150;
+  var TYPING_TIMER_LENGTH = 250;
 
   Socket.on('connect',function(){
 
